@@ -220,46 +220,59 @@
          ========================================================================== -->
     <main class="relative z-10 flex-1 flex items-end md:items-center justify-center md:justify-end px-4 pb-6 sm:pb-8 md:pb-0 md:pr-10 lg:pr-16 pointer-events-none">
         
-        <!-- Romantic Note Card -->
-        <div id="noteCard" class="note-shimmer glass-card pointer-events-auto w-full max-w-lg rounded-3xl p-5 sm:p-7 md:p-8 will-change-transform opacity-0">
-            <!-- Decorative Top Floral Flourish -->
-            <div class="flex items-center justify-between mb-2">
-                <span id="noteBadge" class="text-[11px] uppercase tracking-[0.25em] text-pink-300/85 font-medium">My note for you</span>
-                <svg class="w-5 h-5 text-pink-300/70 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                </svg>
+        <!-- Romantic Note Card (Supports Minimized Pill State to View Full Flower) -->
+        <div id="noteCard" onclick="handleMinimizedCardClick(event)" class="note-shimmer glass-card pointer-events-auto w-full max-w-lg rounded-3xl p-5 sm:p-7 md:p-8 will-change-transform opacity-0 transition-all duration-300">
+            <!-- Decorative Top Floral Flourish & Minimize/Expand Toggle Button -->
+            <div id="noteHeaderRow" class="flex items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2 min-w-0">
+                    <svg class="w-4 h-4 text-pink-300/80 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span id="noteBadge" class="text-[11px] uppercase tracking-[0.25em] text-pink-300/85 font-medium truncate">My note for you</span>
+                </div>
+
+                <!-- Minimize / Expand Note Button -->
+                <button id="toggleNoteBtn" type="button" onclick="toggleNoteMinimize(event)" class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 active:scale-95 border border-pink-200/20 text-[11px] uppercase tracking-wider text-pink-100 transition cursor-pointer" title="Minimize or Expand Note">
+                    <span id="toggleNoteLabel">Hide Note</span>
+                    <svg id="toggleNoteChevron" class="w-3.5 h-3.5 text-pink-300 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
             </div>
 
-            <!-- Recipient Greeting -->
-            <h2 id="displayRecipient" class="font-romantic italic text-3xl sm:text-4xl text-white mb-2.5 sm:mb-3 tracking-wide">V,</h2>
+            <!-- Collapsible Note Content Wrapper -->
+            <div id="noteCollapsibleContent">
+                <!-- Recipient Greeting -->
+                <h2 id="displayRecipient" class="font-romantic italic text-3xl sm:text-4xl text-white mb-2.5 sm:mb-3 tracking-wide">V,</h2>
 
-            <!-- Body Message -->
-            <div id="displayBody" class="font-romantic text-[15.5px] sm:text-[17.5px] leading-relaxed text-pink-50/95 max-h-[34dvh] sm:max-h-72 overflow-y-auto custom-scroll pr-2 whitespace-pre-line">Every time I look at you, I’m reminded of how blessed I am to have you in my life, and I don't think I could ever truly comprehend it. You're just amazing in every way possible BREATHTAKING to the sight, SOFT to the touch, SOOTHING to the ear, and FULFILLING to my soul.
+                <!-- Body Message -->
+                <div id="displayBody" class="font-romantic text-[15.5px] sm:text-[17.5px] leading-relaxed text-pink-50/95 max-h-[34dvh] sm:max-h-72 overflow-y-auto custom-scroll pr-2 whitespace-pre-line">Every time I look at you, I’m reminded of how blessed I am to have you in my life, and I don't think I could ever truly comprehend it. You're just amazing in every way possible BREATHTAKING to the sight, SOFT to the touch, SOOTHING to the ear, and FULFILLING to my soul.
 
 I want you to know how much I appreciate you as my girlfriend and the wonderful woman you are. You've been with me through trials and tribulations time and time again yet still stuck by my side. Your love and support are the best things I could ever have, and I'd be lost in this world without you.
 
 You're my home without a house and my reminder of love. We share every moment we possibly can together laughing, crying, loving, fighting.... seeing it all unfold, Just like this lily unfolding petal by petal, every day with you shows something even more beautiful than the last. You bring so much light and magic into my world that I never want to miss a moment of it as much as I do right now. I miss you so much and I can't wait to see that big, beautiful smile again</div>
 
-            <!-- Divider -->
-            <div class="my-3 h-px w-full bg-gradient-to-r from-pink-300/35 via-pink-200/15 to-transparent"></div>
+                <!-- Divider -->
+                <div class="my-3 h-px w-full bg-gradient-to-r from-pink-300/35 via-pink-200/15 to-transparent"></div>
 
-            <!-- Sign-off & Signature -->
-            <div class="flex items-baseline justify-between">
-                <div>
-                    <p id="displayClosing" class="font-romantic italic text-base text-pink-200/85">I love you so much,</p>
-                    <p id="displaySignature" class="font-signature text-3xl sm:text-4xl text-pink-300 mt-0.5">Trey</p>
+                <!-- Sign-off & Signature -->
+                <div class="flex items-baseline justify-between">
+                    <div>
+                        <p id="displayClosing" class="font-romantic italic text-base text-pink-200/85">I love you so much,</p>
+                        <p id="displaySignature" class="font-signature text-3xl sm:text-4xl text-pink-300 mt-0.5">Trey</p>
+                    </div>
+                    <button onclick="replayBloom()" class="text-xs text-pink-200/60 hover:text-pink-200 transition flex items-center gap-1 py-1 px-2.5 rounded-full hover:bg-white/5 shrink-0" title="Replay Bloom">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        <span>Replay</span>
+                    </button>
                 </div>
-                <button onclick="replayBloom()" class="text-xs text-pink-200/60 hover:text-pink-200 transition flex items-center gap-1 py-1 px-2.5 rounded-full hover:bg-white/5 shrink-0" title="Replay Bloom">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                    </svg>
-                    <span>Replay</span>
-                </button>
-            </div>
 
-            <!-- Postscript (P.S.) Section Added Below Sign-Off -->
-            <div class="mt-2 pt-2 border-t border-pink-200/10">
-                <p id="displayPS" class="font-romantic italic text-base sm:text-lg text-pink-200/95 tracking-wide">P.S. I have something for you ;)</p>
+                <!-- Postscript (P.S.) Section Added Below Sign-Off -->
+                <div class="mt-2 pt-2 border-t border-pink-200/10">
+                    <p id="displayPS" class="font-romantic italic text-base sm:text-lg text-pink-200/95 tracking-wide">P.S. I have something for you ;)</p>
+                </div>
             </div>
         </div>
     </main>
@@ -349,8 +362,9 @@ You're my home without a house and my reminder of love. We share every moment we
         let lastFrameTime = performance.now();
         let elapsedTime = 0;
 
-        // Note visibility state defaults to 'bloom' so the note slides up with the flower blooming
+        // Note visibility & minimize state
         let noteVisibilityMode = 'bloom';
+        let isNoteMinimized = false;
 
         // Interactive physics sway & gentle mouse/touch parallax
         let swayAngle = 0;
@@ -1391,6 +1405,49 @@ You're my home without a house and my reminder of love. We share every moment we
         function replayBloom() {
             bloomProgress = 0;
             isPlaying = true;
+        }
+
+        /**
+         * Toggles the note card between its full expanded view and a sleek minimized bottom pill
+         * so the entire blossoming flower can be viewed unobstructed on iPhone/mobile screens.
+         */
+        function toggleNoteMinimize(event) {
+            if (event) event.stopPropagation();
+            isNoteMinimized = !isNoteMinimized;
+
+            const card = document.getElementById('noteCard');
+            const content = document.getElementById('noteCollapsibleContent');
+            const headerRow = document.getElementById('noteHeaderRow');
+            const badge = document.getElementById('noteBadge');
+            const label = document.getElementById('toggleNoteLabel');
+            const chevron = document.getElementById('toggleNoteChevron');
+
+            if (isNoteMinimized) {
+                content.classList.add('hidden');
+                headerRow.classList.remove('mb-2');
+                card.classList.remove('p-5', 'sm:p-7', 'md:p-8', 'rounded-3xl');
+                card.classList.add('py-3', 'px-4', 'sm:px-5', 'rounded-full', 'cursor-pointer');
+                badge.textContent = 'My note for you — V';
+                label.textContent = 'Read Note';
+                chevron.classList.add('rotate-180');
+            } else {
+                content.classList.remove('hidden');
+                headerRow.classList.add('mb-2');
+                card.classList.add('p-5', 'sm:p-7', 'md:p-8', 'rounded-3xl');
+                card.classList.remove('py-3', 'px-4', 'sm:px-5', 'rounded-full', 'cursor-pointer');
+                badge.textContent = 'My note for you';
+                label.textContent = 'Hide Note';
+                chevron.classList.remove('rotate-180');
+            }
+        }
+
+        /**
+         * Allows tapping anywhere on the minimized bottom pill to re-open the full note
+         */
+        function handleMinimizedCardClick(event) {
+            if (isNoteMinimized) {
+                toggleNoteMinimize(event);
+            }
         }
 
         function updateNoteVisibilityState() {
