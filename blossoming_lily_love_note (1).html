@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For V — Eternal Bloom</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Romantic Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Alex+Brush&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            --font-script: 'Alex Brush', cursive;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #07040a;
+            font-family: var(--font-sans);
+            color: #fdf8f5;
+            user-select: none;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-romantic {
+            font-family: var(--font-serif);
+        }
+
+        .font-signature {
+            font-family: var(--font-script);
+        }
+
+        /* Luxury Glassmorphism */
+        .glass-card {
+            background: linear-gradient(145deg, rgba(28, 18, 38, 0.62) 0%, rgba(16, 10, 24, 0.78) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 228, 240, 0.16);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.85),
+                        0 0 50px rgba(244, 114, 182, 0.10),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        }
+
+        .glass-panel {
+            background: rgba(16, 11, 24, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        /* Custom Range Slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.15);
+            height: 6px;
+            border-radius: 999px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #f9a8d4;
+            cursor: pointer;
+            box-shadow: 0 0 14px rgba(244, 114, 182, 0.95);
+            border: 2px solid #ffffff;
+            transition: transform 0.15s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Subtle scrollbar for note content */
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.22);
+            border-radius: 999px;
+        }
+
+        /* Gift Mode & Presentation Transitions */
+        .ui-control {
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        body.gift-mode .ui-control,
+        body.presentation-mode .ui-control {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            transform: translateY(20px);
+        }
+        body.gift-mode .ui-top,
+        body.presentation-mode .ui-top {
+            transform: translateY(-20px);
+        }
+
+        /* Wax Seal Pulse Animation */
+        @keyframes sealPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(244, 114, 182, 0.45), 0 15px 35px rgba(0, 0, 0, 0.6);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 0 18px rgba(244, 114, 182, 0), 0 20px 45px rgba(244, 114, 182, 0.3);
+                transform: scale(1.04);
+            }
+        }
+        .wax-seal-btn {
+            animation: sealPulse 3s infinite ease-in-out;
+        }
+
+        /* Wax Seal Unsealing Shimmer Animation when Chime Rings */
+        @keyframes sealUnlockShimmer {
+            0% {
+                transform: scale(1) rotate(0deg);
+                box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.8), 0 0 30px rgba(244, 114, 182, 0.8);
+                filter: brightness(1);
+            }
+            45% {
+                transform: scale(1.16) rotate(-6deg);
+                box-shadow: 0 0 0 28px rgba(251, 191, 36, 0), 0 0 65px rgba(251, 191, 36, 0.95);
+                filter: brightness(1.35);
+            }
+            100% {
+                transform: scale(0.88) rotate(8deg);
+                box-shadow: 0 0 0 45px rgba(244, 114, 182, 0), 0 0 90px rgba(244, 114, 182, 0);
+                filter: brightness(1.5);
+                opacity: 0.2;
+            }
+        }
+        .wax-seal-unlocking {
+            animation: sealUnlockShimmer 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+            pointer-events: none;
+        }
+
+        /* Shimmer effect on card border */
+        .note-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .note-shimmer::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="gift-mode relative w-screen h-[100dvh] overflow-hidden flex flex-col justify-between">
+
+    <!-- ==========================================================================
+         ROMANTIC WAX-SEALED INTRO ENVELOPE OVERLAY (ALWAYS STARTS HERE)
+         ========================================================================== -->
+    <div id="giftEnvelopeOverlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 transition-all duration-1000 bg-[#08050d]/95 backdrop-blur-xl opacity-100">
+        <!-- Decorative Background Radial Glow -->
+        <div class="absolute w-96 h-96 rounded-full bg-pink-500/15 blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-md w-full glass-card rounded-3xl p-8 sm:p-12 text-center border border-pink-200/20 flex flex-col items-center">
+            <span id="envelopeBadge" class="text-[11px] uppercase tracking-[0.35em] text-pink-300/80 mb-3">A Digital Keepsake</span>
+            <h1 id="envelopeTitle" class="font-romantic italic text-4xl sm:text-5xl text-white mb-3 tracking-wide">V</h1>
+            <p class="font-romantic text-lg text-pink-100/75 mb-8 leading-relaxed">
+                A rare flower grown in code, waiting for your touch to bloom.
+            </p>
+
+            <!-- Botanical Wax Seal Button -->
+            <button id="waxSealButton" onclick="openGiftEnvelope()" class="wax-seal-btn group relative w-24 h-24 rounded-full bg-gradient-to-br from-rose-500 via-pink-600 to-rose-900 border-2 border-amber-200/50 flex flex-col items-center justify-center text-white shadow-2xl cursor-pointer transition-transform active:scale-95">
+                <div class="w-20 h-20 rounded-full border border-amber-200/35 flex flex-col items-center justify-center">
+                    <!-- Lily Emblem Icon -->
+                    <svg class="w-8 h-8 text-amber-100 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C9.5 6 7 9.5 7 13a5 5 0 0010 0c0-3.5-2.5-7-5-11zm0 15a3 3 0 01-3-3c0-2 1.5-4.5 3-7 1.5 2.5 3 5 3 7a3 3 0 01-3 3z"/>
+                    </svg>
+                </div>
+            </button>
+
+            <span id="waxSealPrompt" class="mt-6 text-xs uppercase tracking-[0.25em] text-pink-200/80 animate-pulse">
+                Tap Seal to Bloom
+            </span>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         MINIMAL FLOATING CONTROLS (MUSIC & REPLAY ONLY AFTER OPENING)
+         ========================================================================== -->
+    <div id="giftFloatingBar" class="fixed top-4 right-4 sm:top-5 sm:right-5 z-30 hidden items-center gap-2.5">
+        <button onclick="toggleAmbientMusic()" class="glass-panel px-3.5 py-2 rounded-full text-xs text-pink-100/90 hover:text-white flex items-center gap-1.5 transition shadow-lg">
+            <svg class="w-4 h-4 text-pink-300" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+            </svg>
+            <span class="gift-sound-label">Music: On</span>
+        </button>
+        <button onclick="replayBloom()" class="glass-panel px-3.5 py-2 rounded-full text-xs text-pink-100/90 hover:text-white flex items-center gap-1.5 transition shadow-lg">
+            <svg class="w-3.5 h-3.5 text-pink-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            <span>Replay Bloom</span>
+        </button>
+    </div>
+
+    <!-- Interactive Botanical Canvas -->
+    <canvas id="lilyCanvas" class="absolute inset-0 w-full h-full z-0 block cursor-grab active:cursor-grabbing"></canvas>
+
+    <!-- ==========================================================================
+         MAIN CONTENT CONTAINER: ROMANTIC LOVE NOTE CARD
+         ========================================================================== -->
+    <main class="relative z-10 flex-1 flex items-end md:items-center justify-center md:justify-end px-4 pb-6 sm:pb-8 md:pb-0 md:pr-10 lg:pr-16 pointer-events-none">
+        
+        <!-- Romantic Note Card -->
+        <div id="noteCard" class="note-shimmer glass-card pointer-events-auto w-full max-w-lg rounded-3xl p-5 sm:p-7 md:p-8 will-change-transform opacity-0">
+            <!-- Decorative Top Floral Flourish -->
+            <div class="flex items-center justify-between mb-2">
+                <span id="noteBadge" class="text-[11px] uppercase tracking-[0.25em] text-pink-300/85 font-medium">My note for you</span>
+                <svg class="w-5 h-5 text-pink-300/70 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+
+            <!-- Recipient Greeting -->
+            <h2 id="displayRecipient" class="font-romantic italic text-3xl sm:text-4xl text-white mb-2.5 sm:mb-3 tracking-wide">V,</h2>
+
+            <!-- Body Message -->
+            <div id="displayBody" class="font-romantic text-[15.5px] sm:text-[17.5px] leading-relaxed text-pink-50/95 max-h-[34dvh] sm:max-h-72 overflow-y-auto custom-scroll pr-2 whitespace-pre-line">Every time I look at you, I’m reminded of how blessed I am to have you in my life, and I don't think I could ever truly comprehend it. You're just amazing in every way possible BREATHTAKING to the sight, SOFT to the touch, SOOTHING to the ear, and FULFILLING to my soul.
+
+I want you to know how much I appreciate you as my girlfriend and the wonderful woman you are. You've been with me through trials and tribulations time and time again yet still stuck by my side. Your love and support are the best things I could ever have, and I'd be lost in this world without you.
+
+You're my home without a house and my reminder of love. We share every moment we possibly can together laughing, crying, loving, fighting.... seeing it all unfold, Just like this lily unfolding petal by petal, every day with you shows something even more beautiful than the last. You bring so much light and magic into my world that I never want to miss a moment of it as much as I do right now. I miss you so much and I can't wait to see that big, beautiful smile again</div>
+
+            <!-- Divider -->
+            <div class="my-3 h-px w-full bg-gradient-to-r from-pink-300/35 via-pink-200/15 to-transparent"></div>
+
+            <!-- Sign-off & Signature -->
+            <div class="flex items-baseline justify-between">
+                <div>
+                    <p id="displayClosing" class="font-romantic italic text-base text-pink-200/85">I love you so much,</p>
+                    <p id="displaySignature" class="font-signature text-3xl sm:text-4xl text-pink-300 mt-0.5">Trey</p>
+                </div>
+                <button onclick="replayBloom()" class="text-xs text-pink-200/60 hover:text-pink-200 transition flex items-center gap-1 py-1 px-2.5 rounded-full hover:bg-white/5 shrink-0" title="Replay Bloom">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    <span>Replay</span>
+                </button>
+            </div>
+
+            <!-- Postscript (P.S.) Section Added Below Sign-Off -->
+            <div class="mt-2 pt-2 border-t border-pink-200/10">
+                <p id="displayPS" class="font-romantic italic text-base sm:text-lg text-pink-200/95 tracking-wide">P.S. I have something for you ;)</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        /* ==========================================================================
+           1. CONFIG, GIFT STATE & BOTANICAL THEME PALETTES
+           ========================================================================== */
+        const BAKED_GIFT_MODE = true;
+
+        const THEMES = {
+            stargazer: {
+                name: 'Stargazer Pink',
+                bgTop: '#07040d',
+                bgBottom: '#1c0b1b',
+                glowColor: 'rgba(244, 114, 182, 0.25)',
+                petalBase: '#6b1240',      // Deep crimson/magenta throat
+                petalMid: '#ec4899',       // Vibrant Stargazer pink
+                petalEdge: '#fdf2f8',      // Crisp blush-white ruffled rim
+                veinColor: 'rgba(131, 24, 67, 0.45)',
+                spotColor: '#701a46',      // Characteristic Stargazer papillae speckles
+                budGreen: '#7e9c59',       // Outer sepal green tint when closed
+                antherColor: '#b45309',    // Rich rust-orange pollen
+                pollenGlow: '#fbbf24',
+                filamentColor: '#fbcfe8',
+                pistilColor: '#d9f99d',
+                fireflyColor: '249, 168, 212'
+            },
+            purewhite: {
+                name: 'Casablanca White',
+                bgTop: '#050b0e',
+                bgBottom: '#0e1f22',
+                glowColor: 'rgba(167, 243, 208, 0.18)',
+                petalBase: '#d9f99d',      // Nectar green throat
+                petalMid: '#f8fafc',       // Pure velvety white
+                petalEdge: '#ffffff',      // Snow white edge
+                veinColor: 'rgba(148, 163, 184, 0.35)',
+                spotColor: '#94a3b8',
+                budGreen: '#84a96b',
+                antherColor: '#92400e',    // Deep terracotta pollen
+                pollenGlow: '#fcd34d',
+                filamentColor: '#ecfccb',
+                pistilColor: '#bef264',
+                fireflyColor: '254, 240, 138'
+            },
+            sunset: {
+                name: 'Golden Sunset',
+                bgTop: '#0d0607',
+                bgBottom: '#24100d',
+                glowColor: 'rgba(251, 146, 60, 0.22)',
+                petalBase: '#991b1b',      // Warm ruby base
+                petalMid: '#f97316',       // Sunset tangerine
+                petalEdge: '#fef08a',      // Golden yellow tips
+                veinColor: 'rgba(154, 52, 18, 0.4)',
+                spotColor: '#7c2d12',
+                budGreen: '#849b5c',
+                antherColor: '#78350f',
+                pollenGlow: '#fde047',
+                filamentColor: '#fed7aa',
+                pistilColor: '#fef08a',
+                fireflyColor: '253, 186, 116'
+            },
+            lavender: {
+                name: 'Midnight Lavender',
+                bgTop: '#06040e',
+                bgBottom: '#160e29',
+                glowColor: 'rgba(192, 132, 252, 0.24)',
+                petalBase: '#4c1d95',      // Royal violet center
+                petalMid: '#a855f7',       // Soft orchid purple
+                petalEdge: '#f5d0fe',      // Frosted lilac edge
+                veinColor: 'rgba(88, 28, 135, 0.45)',
+                spotColor: '#581c87',
+                budGreen: '#789567',
+                antherColor: '#d97706',
+                pollenGlow: '#fde68a',
+                filamentColor: '#e9d5ff',
+                pistilColor: '#d9f99d',
+                fireflyColor: '216, 180, 254'
+            }
+        };
+
+        let currentThemeKey = 'stargazer';
+        let currentTheme = THEMES.stargazer;
+        let bloomProgress = 0.0;        // 0.0 (tight bud) to 1.0 (full glorious bloom)
+        let isPlaying = false;          // Waits at 0% until she taps the Wax Seal
+        let bloomDuration = 12;         // Seconds for full bloom
+        let lastFrameTime = performance.now();
+        let elapsedTime = 0;
+
+        // Note visibility state defaults to 'bloom' so the note slides up with the flower blooming
+        let noteVisibilityMode = 'bloom';
+
+        // Interactive physics sway & gentle mouse/touch parallax
+        let swayAngle = 0;
+        let swayVelocity = 0;
+        let targetSway = 0;
+        let parallaxX = 0;
+        let parallaxY = 0;
+        let isDragging = false;
+        let dragStartX = 0;
+
+        // Canvas setup
+        const canvas = document.getElementById('lilyCanvas');
+        const ctx = canvas.getContext('2d');
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+
+        // Particles (Fireflies & Rising Pollen)
+        const fireflies = [];
+        const pollenMotes = [];
+
+        // Pre-generated organic speckle coordinates & glistening dewdrops for the 6 petals
+        const petalSpeckles = [];
+        const petalDewdrops = [];
+        for (let p = 0; p < 6; p++) {
+            const spots = [];
+            for (let s = 0; s < 30; s++) {
+                const t = 0.16 + Math.random() * 0.54;
+                const spread = (Math.random() - 0.5) * 0.74;
+                const size = 1.0 + Math.random() * 1.8;
+                spots.push({ t, spread, size });
+            }
+            petalSpeckles.push(spots);
+
+            // 2 to 3 crystal dewdrops per petal
+            const drops = [];
+            const dropCount = 2 + (p % 2);
+            for (let d = 0; d < dropCount; d++) {
+                drops.push({
+                    t: 0.32 + d * 0.24 + (Math.random() * 0.08),
+                    spread: (d % 2 === 0 ? 1 : -1) * (0.18 + Math.random() * 0.22),
+                    radius: 2.2 + Math.random() * 1.8
+                });
+            }
+            petalDewdrops.push(drops);
+        }
+
+        /* ==========================================================================
+           2. GENERATIVE WEB AUDIO ENGINE (NO EXTERNAL MP3 NEEDED)
+           ========================================================================== */
+        let audioCtx = null;
+        let soundEnabled = true;
+        let musicLoopTimer = null;
+        let sequenceTimers = [];
+        let hasPlayedOpeningChime = false;
+        let isEnvelopeOpening = false;
+
+        // Romantic Lydian / Major 9th harp arpeggio frequencies
+        const HARP_CHORDS = [
+            [261.63, 329.63, 392.00, 493.88, 587.33], // Cmaj9
+            [220.00, 261.63, 329.63, 392.00, 493.88], // Am9
+            [174.61, 220.00, 261.63, 329.63, 392.00], // Fmaj9
+            [196.00, 246.94, 293.66, 392.00, 493.88]  // G6
+        ];
+        let chordIndex = 0;
+
+        function ensureAudioContext() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) {
+                    audioCtx = new AudioContextClass();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function clearAudioSequenceTimers() {
+            sequenceTimers.forEach(t => clearTimeout(t));
+            sequenceTimers = [];
+        }
+
+        function stopAmbientMusicLoop() {
+            clearAudioSequenceTimers();
+            if (musicLoopTimer) {
+                clearInterval(musicLoopTimer);
+                musicLoopTimer = null;
+            }
+        }
+
+        function playCelestaNote(freq, delaySeconds = 0, duration = 2.8, volume = 0.045) {
+            if (!soundEnabled || !audioCtx) return;
+            try {
+                const now = audioCtx.currentTime + delaySeconds;
+                const osc = audioCtx.createOscillator();
+                const overtone = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now);
+
+                // Soft bell harmonic overtone
+                overtone.type = 'triangle';
+                overtone.frequency.setValueAtTime(freq * 2, now);
+
+                const overtoneGain = audioCtx.createGain();
+                overtoneGain.gain.setValueAtTime(0.14, now);
+
+                gain.gain.setValueAtTime(0.0001, now);
+                gain.gain.linearRampToValueAtTime(volume, now + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+                osc.connect(gain);
+                overtone.connect(overtoneGain);
+                overtoneGain.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start(now);
+                overtone.start(now);
+                osc.stop(now + duration + 0.05);
+                overtone.stop(now + duration + 0.05);
+            } catch (e) {
+                // Ignore audio errors prior to user interaction
+            }
+        }
+
+        /**
+         * Crystalline, resonant harp/celesta opening chime glissando played strictly ONCE when the wax seal is tapped
+         */
+        function playEnvelopeSealChime() {
+            if (!soundEnabled || hasPlayedOpeningChime) return;
+            hasPlayedOpeningChime = true;
+            ensureAudioContext();
+            const sealGlissando = [523.25, 659.25, 783.99, 987.77, 1174.66, 1318.51, 1567.98];
+            sealGlissando.forEach((freq, i) => {
+                playCelestaNote(freq, i * 0.11, 2.9, 0.058);
+            });
+        }
+
+        function startAmbientMusicLoop() {
+            ensureAudioContext();
+            if (musicLoopTimer) clearInterval(musicLoopTimer);
+
+            const triggerMeasure = () => {
+                if (!soundEnabled || !audioCtx || audioCtx.state !== 'running') return;
+                const chord = HARP_CHORDS[chordIndex % HARP_CHORDS.length];
+                chordIndex++;
+                chord.forEach((freq, idx) => {
+                    playCelestaNote(freq, idx * 0.45, 3.4, 0.032);
+                });
+            };
+
+            triggerMeasure();
+            musicLoopTimer = setInterval(triggerMeasure, 3600);
+        }
+
+        function toggleAmbientMusic() {
+            soundEnabled = !soundEnabled;
+            const labelText = soundEnabled ? 'Music: On' : 'Music: Off';
+
+            document.querySelectorAll('.gift-sound-label').forEach(el => {
+                el.textContent = labelText;
+            });
+
+            if (soundEnabled) {
+                startAmbientMusicLoop();
+            } else {
+                stopAmbientMusicLoop();
+            }
+        }
+
+        /* ==========================================================================
+           3. INITIALIZATION & RESIZE HANDLING
+           ========================================================================== */
+        function resizeCanvas() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Initialize ambient fireflies
+        for (let i = 0; i < 52; i++) {
+            fireflies.push(createFirefly(true));
+        }
+
+        function createFirefly(randomY = false) {
+            return {
+                x: Math.random() * width,
+                y: randomY ? Math.random() * height : height + 20,
+                vx: (Math.random() - 0.5) * 0.35,
+                vy: -0.25 - Math.random() * 0.55,
+                radius: 1.2 + Math.random() * 2.5,
+                phase: Math.random() * Math.PI * 2,
+                phaseSpeed: 0.02 + Math.random() * 0.03
+            };
+        }
+
+        function spawnPollenBurst(originX, originY, count = 8) {
+            for (let i = 0; i < count; i++) {
+                const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.8;
+                const speed = 0.4 + Math.random() * 1.4;
+                pollenMotes.push({
+                    x: originX + (Math.random() - 0.5) * 30,
+                    y: originY + (Math.random() - 0.5) * 30,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - 0.3,
+                    alpha: 0.95,
+                    size: 1.5 + Math.random() * 2.2
+                });
+            }
+        }
+
+        /* ==========================================================================
+           4. INTERACTIVE MOUSE PARALLAX & TOUCH SWAY
+           ========================================================================== */
+        canvas.addEventListener('pointerdown', (e) => {
+            ensureAudioContext();
+            isDragging = true;
+            dragStartX = e.clientX;
+            spawnPollenBurst(e.clientX, e.clientY, 14);
+        });
+
+        window.addEventListener('pointermove', (e) => {
+            // Subtle romantic breeze parallax even without dragging
+            const normX = (e.clientX / Math.max(1, width)) - 0.5;
+            const normY = (e.clientY / Math.max(1, height)) - 0.5;
+            parallaxX = normX;
+            parallaxY = normY;
+
+            if (isDragging) {
+                const deltaX = e.clientX - dragStartX;
+                targetSway = Math.max(-0.22, Math.min(0.22, deltaX * 0.0012));
+            } else {
+                targetSway = normX * 0.065;
+            }
+        });
+
+        window.addEventListener('pointerup', () => {
+            isDragging = false;
+            targetSway = parallaxX * 0.05;
+        });
+
+        /* ==========================================================================
+           5. COLOR INTERPOLATION & EASING HELPERS
+           ========================================================================== */
+        function smoothstep(min, max, value) {
+            const x = Math.max(0, Math.min(1, (value - min) / (max - min)));
+            return x * x * (3 - 2 * x);
+        }
+
+        function lerp(a, b, t) {
+            return a + (b - a) * t;
+        }
+
+        function hexToRgb(hex) {
+            const clean = hex.replace('#', '');
+            const num = parseInt(clean, 16);
+            return {
+                r: (num >> 16) & 255,
+                g: (num >> 8) & 255,
+                b: num & 255
+            };
+        }
+
+        function lerpColor(hexA, hexB, t) {
+            const a = hexToRgb(hexA);
+            const b = hexToRgb(hexB);
+            const r = Math.round(lerp(a.r, b.r, t));
+            const g = Math.round(lerp(a.g, b.g, t));
+            const bl = Math.round(lerp(a.b, b.b, t));
+            return `rgb(${r}, ${g}, ${bl})`;
+        }
+
+        /* ==========================================================================
+           6. BOTANICAL LILY DRAWING ENGINE (WITH DEWDROPS & 3D VEINING)
+           ========================================================================== */
+
+        /**
+         * Draws a curved stem leaf that unfurls gracefully as the lily blooms
+         */
+        function drawStemLeaf(stemX, stemY, side, scale, bloom, leafIndex) {
+            ctx.save();
+            ctx.translate(stemX, stemY);
+
+            const unfold = smoothstep(0.0, 0.7, bloom);
+            const breeze = Math.sin(elapsedTime * 1.4 + leafIndex) * 0.04;
+            const baseAngle = side * (0.35 + unfold * 0.48) + breeze;
+
+            ctx.rotate(baseAngle);
+            ctx.scale(side * scale, scale);
+
+            const leafLen = 140;
+            const leafWidth = 24 + unfold * 10;
+
+            const grad = ctx.createLinearGradient(0, 0, leafLen, -leafLen * 0.3);
+            grad.addColorStop(0, '#155e3b');
+            grad.addColorStop(0.5, '#229954');
+            grad.addColorStop(1, '#58d68d');
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.bezierCurveTo(
+                leafLen * 0.3, -leafWidth * 1.1,
+                leafLen * 0.75, -leafWidth * 0.6,
+                leafLen, 14
+            );
+            ctx.bezierCurveTo(
+                leafLen * 0.7, leafWidth * 0.6,
+                leafLen * 0.3, leafWidth * 0.4,
+                0, 6
+            );
+            ctx.closePath();
+
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            // Subtle midrib vein
+            ctx.beginPath();
+            ctx.moveTo(0, 2);
+            ctx.quadraticCurveTo(leafLen * 0.5, -leafWidth * 0.25, leafLen * 0.92, 10);
+            ctx.strokeStyle = 'rgba(187, 247, 208, 0.30)';
+            ctx.lineWidth = 1.3;
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        /**
+         * Draws an individual lily tepal (petal) with realistic 3D unfurling kinematics,
+         * ruffled edges, central nectar groove, veins, Stargazer speckles, and glistening dewdrops.
+         */
+        function drawLilyPetal(config) {
+            const {
+                index,
+                angle,          // Radial angle in the 6-petal whorl
+                isInner,        // Inner 3 petals vs Outer 3 sepals
+                openFactor,     // 0 (closed bud) to 1 (fully open)
+                scale
+            } = config;
+
+            ctx.save();
+
+            // 1. Calculate 2.5D projection for a flower facing slightly upward & toward the viewer
+            const dirX = Math.cos(angle);
+            const dirY = Math.sin(angle);
+
+            // In closed bud, all petals point up (-PI/2) and cluster tightly around the center axis
+            const budBaseOffsetX = dirX * 12 * scale * (1 - openFactor * 0.7);
+            const budBaseOffsetY = dirY * 6 * scale * (1 - openFactor * 0.5);
+
+            ctx.translate(budBaseOffsetX, budBaseOffsetY);
+
+            // Calculate rotation from vertical (-PI/2) toward its radial bloom angle
+            const targetAngle = Math.atan2(dirY * 0.82, dirX);
+            const verticalAngle = -Math.PI / 2 + dirX * 0.08;
+
+            let diff = targetAngle - verticalAngle;
+            while (diff > Math.PI) diff -= Math.PI * 2;
+            while (diff < -Math.PI) diff += Math.PI * 2;
+
+            const currentAngle = verticalAngle + diff * Math.pow(openFactor, 0.85);
+            ctx.rotate(currentAngle + Math.PI / 2);
+
+            // 2. Petal Dimensions based on bloom progress
+            const foreshorten = 1 - Math.abs(dirY) * 0.18 * openFactor;
+            const fullLength = (isInner ? 182 : 170) * scale;
+            const recurveShorten = Math.sin(openFactor * Math.PI * 0.82) * 0.22 + 0.78;
+            const length = fullLength * recurveShorten * foreshorten;
+
+            const baseWidth = (isInner ? 56 : 45) * scale;
+            const width = baseWidth * (0.42 + 0.58 * smoothstep(0.05, 0.85, openFactor));
+
+            const tipSway = dirX * 12 * scale * openFactor;
+
+            // 3. Construct Organic Ruffled Petal Path (with subtle wave undulations when open)
+            const wave = Math.sin(elapsedTime * 1.5 + index) * 2.2 * scale * openFactor;
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+
+            // Left ruffled margin
+            ctx.bezierCurveTo(
+                -width * 0.58, -length * 0.22,
+                -width * 1.18 + wave, -length * 0.58,
+                tipSway, -length
+            );
+
+            // Right ruffled margin
+            ctx.bezierCurveTo(
+                width * 1.18 - wave, -length * 0.58,
+                width * 0.58, -length * 0.22,
+                0, 0
+            );
+            ctx.closePath();
+
+            // 4. Rich Multi-Stop Botanical Gradient (Pure, velvety & clean without murky green mixing)
+            const baseCol = currentTheme.petalBase;
+            const midCol = currentTheme.petalMid;
+            const edgeCol = currentTheme.petalEdge;
+
+            const grad = ctx.createLinearGradient(0, 0, tipSway, -length);
+            grad.addColorStop(0.0, baseCol);
+            grad.addColorStop(0.18, baseCol);
+            grad.addColorStop(0.62, midCol);
+            grad.addColorStop(0.94, edgeCol);
+            grad.addColorStop(1.0, '#ffffff');
+
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.32)';
+            ctx.shadowBlur = 16 * scale;
+            ctx.shadowOffsetY = 3 * scale;
+
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetY = 0;
+
+            // 5. Crisp White/Blush Ruffled Rim Highlight
+            ctx.strokeStyle = edgeCol;
+            ctx.lineWidth = (1.3 + openFactor * 1.3) * scale;
+            ctx.stroke();
+
+            // 6. Central Nectar Groove (Soft Luminous Midrib)
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.quadraticCurveTo(tipSway * 0.35, -length * 0.5, tipSway, -length * 0.95);
+            ctx.strokeStyle = lerpColor(currentTheme.petalEdge, '#ffffff', 0.6);
+            ctx.lineWidth = 2.0 * scale;
+            ctx.globalAlpha = 0.65;
+            ctx.stroke();
+
+            // 7. Delicate Parallel Botanical Veins (Softened & Clean)
+            if (openFactor > 0.15) {
+                const veinAlpha = smoothstep(0.15, 0.7, openFactor) * 0.22;
+                ctx.strokeStyle = currentTheme.petalEdge;
+                ctx.lineWidth = 0.85 * scale;
+                ctx.globalAlpha = veinAlpha;
+
+                for (let v = -3; v <= 3; v++) {
+                    if (v === 0) continue;
+                    ctx.beginPath();
+                    ctx.moveTo(v * 1.5 * scale, -length * 0.08);
+                    ctx.quadraticCurveTo(
+                        v * width * 0.26,
+                        -length * 0.52,
+                        tipSway + v * width * 0.08,
+                        -length * 0.86
+                    );
+                    ctx.stroke();
+                }
+            }
+
+            // 8. Glistening Morning Dewdrops on the Petals
+            if (openFactor > 0.35) {
+                const dewAlpha = smoothstep(0.35, 0.85, openFactor) * 0.85;
+                const drops = petalDewdrops[index];
+
+                for (let d = 0; d < drops.length; d++) {
+                    const drop = drops[d];
+                    const dy = -drop.t * length;
+                    const profileWidth = Math.sin(drop.t * Math.PI) * width * 0.72;
+                    const dx = drop.spread * profileWidth + tipSway * drop.t * 0.35;
+                    const r = drop.radius * scale;
+
+                    ctx.globalAlpha = dewAlpha;
+
+                    // Subtle drop shadow under the dewdrop
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.28)';
+                    ctx.beginPath();
+                    ctx.ellipse(dx + 0.8 * scale, dy + 1.2 * scale, r, r * 1.15, 0, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Translucent water body
+                    const dewGrad = ctx.createRadialGradient(dx - r * 0.3, dy - r * 0.3, r * 0.1, dx, dy, r * 1.1);
+                    dewGrad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+                    dewGrad.addColorStop(0.5, 'rgba(255, 240, 248, 0.45)');
+                    dewGrad.addColorStop(1, 'rgba(255, 255, 255, 0.12)');
+                    ctx.fillStyle = dewGrad;
+                    ctx.beginPath();
+                    ctx.ellipse(dx, dy, r, r * 1.15, 0, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Specular sparkle glint
+                    const glint = (Math.sin(elapsedTime * 3 + index + d) * 0.3 + 0.7) * dewAlpha;
+                    ctx.globalAlpha = glint;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(dx - r * 0.32, dy - r * 0.32, r * 0.28, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            ctx.restore();
+        }
+
+        /**
+         * Draws the central Pistil (Stigma & Style) and 6 gracefully curved Stamens
+         * with glowing golden-rust pollen anthers that pivot as the lily blooms.
+         */
+        function drawStamensAndPistil(openFactor, scale) {
+            const reveal = smoothstep(0.22, 0.88, openFactor);
+            if (reveal <= 0.01) return;
+
+            ctx.save();
+            ctx.globalAlpha = smoothstep(0.20, 0.45, openFactor);
+
+            // 1. Central Pistil (Style + Three-lobed Stigma)
+            const pistilLen = 120 * scale * (0.45 + 0.55 * reveal);
+            const pistilSway = Math.sin(elapsedTime * 1.8) * 3 * scale;
+
+            ctx.beginPath();
+            ctx.moveTo(0, 4 * scale);
+            ctx.quadraticCurveTo(pistilSway * 0.5, -pistilLen * 0.55, pistilSway, -pistilLen);
+            ctx.strokeStyle = currentTheme.pistilColor;
+            ctx.lineWidth = 3.2 * scale;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            // Three-lobed stigma crown at tip of pistil
+            const stigmaX = pistilSway;
+            const stigmaY = -pistilLen;
+            ctx.fillStyle = '#a3e635';
+            for (let lobe = 0; lobe < 3; lobe++) {
+                const a = (lobe * Math.PI * 2) / 3;
+                ctx.beginPath();
+                ctx.arc(
+                    stigmaX + Math.cos(a) * 3.2 * scale,
+                    stigmaY + Math.sin(a) * 2.5 * scale,
+                    3.2 * scale,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+            }
+
+            // 2. Six Curved Filaments & Versatile Anthers
+            const stamenAngles = [-0.65, -0.38, -0.14, 0.14, 0.38, 0.65];
+
+            stamenAngles.forEach((baseSpread, idx) => {
+                const spread = baseSpread * (0.18 + 0.82 * reveal);
+                const sLen = (96 + (idx % 2) * 14) * scale * (0.45 + 0.55 * reveal);
+                const microBreeze = Math.sin(elapsedTime * 2.3 + idx * 1.1) * 3.5 * scale * reveal;
+
+                const tipX = Math.sin(spread) * sLen * 0.85 + microBreeze;
+                const tipY = -Math.cos(spread * 0.65) * sLen;
+
+                // Filament stalk
+                ctx.beginPath();
+                ctx.moveTo(0, 6 * scale);
+                ctx.quadraticCurveTo(tipX * 0.35, tipY * 0.65, tipX, tipY);
+                ctx.strokeStyle = currentTheme.filamentColor;
+                ctx.lineWidth = 1.7 * scale;
+                ctx.stroke();
+
+                // Glowing Pollen Halo around Anther
+                ctx.save();
+                ctx.translate(tipX, tipY);
+
+                const antherTilt = spread + smoothstep(0.45, 0.95, openFactor) * (idx % 2 === 0 ? 1.1 : -1.1);
+                ctx.rotate(antherTilt);
+
+                const aura = ctx.createRadialGradient(0, 0, 1, 0, 0, 14 * scale);
+                aura.addColorStop(0, currentTheme.pollenGlow);
+                aura.addColorStop(1, 'rgba(251, 191, 36, 0)');
+                ctx.fillStyle = aura;
+                ctx.beginPath();
+                ctx.arc(0, 0, 14 * scale, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Anther body
+                ctx.fillStyle = currentTheme.antherColor;
+                ctx.beginPath();
+                ctx.roundRect(-2.6 * scale, -9.5 * scale, 5.2 * scale, 19 * scale, 2.6 * scale);
+                ctx.fill();
+
+                // Golden pollen dust texture along the anther slit
+                ctx.fillStyle = currentTheme.pollenGlow;
+                ctx.beginPath();
+                ctx.roundRect(-0.9 * scale, -8 * scale, 1.8 * scale, 16 * scale, 1 * scale);
+                ctx.fill();
+
+                ctx.restore();
+            });
+
+            ctx.restore();
+        }
+
+        /**
+         * Draws a secondary smaller companion lily bud on the side of the stem
+         */
+        function drawSideBud(stemX, stemY, scale, bloom) {
+            ctx.save();
+            ctx.translate(stemX, stemY);
+
+            const sway = Math.sin(elapsedTime * 1.2 + 2) * 0.04;
+            ctx.rotate(-0.48 + sway);
+            ctx.scale(scale, scale);
+
+            // Pedicel stalk
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.quadraticCurveTo(-18, -35, -24, -75);
+            ctx.strokeStyle = '#4d7c38';
+            ctx.lineWidth = 4.5;
+            ctx.stroke();
+
+            // Closed Side Bud Head
+            ctx.translate(-24, -75);
+            ctx.rotate(-0.18);
+
+            const budGrad = ctx.createLinearGradient(0, 0, 0, -68);
+            budGrad.addColorStop(0, '#4d7c38');
+            budGrad.addColorStop(0.45, lerpColor(currentTheme.budGreen, currentTheme.petalMid, bloom * 0.6));
+            budGrad.addColorStop(1, currentTheme.petalEdge);
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.bezierCurveTo(-18, -16, -16, -48, 0, -68);
+            ctx.bezierCurveTo(16, -48, 18, -16, 0, 0);
+            ctx.fillStyle = budGrad;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -66);
+            ctx.strokeStyle = 'rgba(255,255,255,0.28)';
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        /* ==========================================================================
+           7. CANVAS COMPOSITE NOTE CARD RENDERER (FOR DIRECT VIDEO EXPORT)
+           ========================================================================== */
+        function wrapCanvasText(context, text, x, y, maxWidth, lineHeight, draw = true) {
+            const paragraphs = text.split('\n');
+            let cursorY = y;
+
+            for (let p = 0; p < paragraphs.length; p++) {
+                const para = paragraphs[p].trim();
+                if (!para) {
+                    cursorY += lineHeight * 0.45;
+                    continue;
+                }
+                const words = para.split(' ');
+                let line = '';
+
+                for (let n = 0; n < words.length; n++) {
+                    const testLine = line + words[n] + ' ';
+                    const metrics = context.measureText(testLine);
+                    if (metrics.width > maxWidth && n > 0) {
+                        if (draw) context.fillText(line.trim(), x, cursorY);
+                        line = words[n] + ' ';
+                        cursorY += lineHeight;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                if (draw && line.trim()) context.fillText(line.trim(), x, cursorY);
+                cursorY += lineHeight;
+            }
+            return cursorY;
+        }
+
+        function drawNoteCardOnCanvas(bloom) {
+            // Render the full romantic note card (including all 4 paragraphs, Sign-Off, Signature, and P.S.) onto the video canvas
+            // Synchronized with the flower's bloom progress so the card slides up smoothly as the petals open
+            if (noteVisibilityMode === 'hide') return;
+
+            let cardAlpha = 1;
+            let slideOffsetY = 0;
+
+            if (noteVisibilityMode === 'bloom') {
+                const slideEase = smoothstep(0.04, 0.88, bloom);
+                cardAlpha = smoothstep(0.02, 0.72, bloom);
+                slideOffsetY = (1 - slideEase) * 140;
+            }
+
+            if (cardAlpha <= 0.01) return;
+
+            ctx.save();
+            ctx.globalAlpha = cardAlpha;
+
+            const isDesktop = width >= 768;
+            const cardW = Math.min(480, width - 32);
+            const pad = 26;
+            const maxW = cardW - pad * 2;
+
+            // Measure body text dynamically so all 4 paragraphs + signature + P.S. fit cleanly inside the video frame
+            const bodyStr = document.getElementById('inputBody').value;
+            let bodyFontSize = isDesktop ? 14.5 : 13;
+            let lineHeight = bodyFontSize * 1.32;
+            ctx.font = `${bodyFontSize}px "Cormorant Garamond", Georgia, serif`;
+            let measuredBodyBottom = wrapCanvasText(ctx, bodyStr, 0, 0, maxW, lineHeight, false);
+
+            while (measuredBodyBottom > height - 260 && bodyFontSize > 11) {
+                bodyFontSize -= 0.5;
+                lineHeight = bodyFontSize * 1.28;
+                ctx.font = `${bodyFontSize}px "Cormorant Garamond", Georgia, serif`;
+                measuredBodyBottom = wrapCanvasText(ctx, bodyStr, 0, 0, maxW, lineHeight, false);
+            }
+
+            const cardH = Math.min(height - 32, Math.max(420, measuredBodyBottom + 215));
+            const cardX = isDesktop ? width - cardW - 48 : (width - cardW) / 2;
+            const baseCardY = isDesktop ? (height - cardH) / 2 : Math.max(16, height - cardH - 20);
+            const cardY = baseCardY + slideOffsetY;
+            const textStartX = cardX + pad;
+
+            // Card background & border
+            ctx.fillStyle = 'rgba(20, 12, 30, 0.86)';
+            ctx.strokeStyle = 'rgba(255, 220, 238, 0.24)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(cardX, cardY, cardW, cardH, 24);
+            ctx.fill();
+            ctx.stroke();
+
+            // 1. Top Badge ("MY NOTE FOR YOU")
+            ctx.font = '600 10px "Plus Jakarta Sans", sans-serif';
+            ctx.fillStyle = 'rgba(249, 168, 212, 0.85)';
+            const badgeText = document.getElementById('inputBadge').value.toUpperCase();
+            ctx.fillText(badgeText, textStartX, cardY + 30);
+
+            // 2. Recipient ("For V,")
+            ctx.font = 'italic 30px "Cormorant Garamond", Georgia, serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(document.getElementById('inputRecipient').value, textStartX, cardY + 64);
+
+            // 3. Body Text (All 4 paragraphs)
+            ctx.font = `${bodyFontSize}px "Cormorant Garamond", Georgia, serif`;
+            ctx.fillStyle = 'rgba(253, 242, 248, 0.95)';
+            const afterBodyY = wrapCanvasText(ctx, bodyStr, textStartX, cardY + 94, maxW, lineHeight, true);
+
+            // 4. Divider line
+            const divY = Math.min(cardY + cardH - 110, afterBodyY + 4);
+            ctx.strokeStyle = 'rgba(249, 168, 212, 0.25)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(textStartX, divY);
+            ctx.lineTo(cardX + cardW - pad, divY);
+            ctx.stroke();
+
+            // 5. Sign-Off ("I love you so much,") & Signature ("Trey")
+            ctx.font = 'italic 15px "Cormorant Garamond", Georgia, serif';
+            ctx.fillStyle = 'rgba(251, 207, 232, 0.88)';
+            ctx.fillText(document.getElementById('inputClosing').value, textStartX, divY + 22);
+
+            ctx.font = '30px "Alex Brush", cursive';
+            ctx.fillStyle = '#f9a8d4';
+            ctx.fillText(document.getElementById('inputSignature').value, textStartX, divY + 52);
+
+            // 6. Subtle P.S. Divider & Postscript ("P.S. I have something for you ;)")
+            const psDivY = divY + 66;
+            ctx.strokeStyle = 'rgba(249, 168, 212, 0.12)';
+            ctx.beginPath();
+            ctx.moveTo(textStartX, psDivY);
+            ctx.lineTo(cardX + cardW - pad, psDivY);
+            ctx.stroke();
+
+            ctx.font = 'italic 16px "Cormorant Garamond", Georgia, serif';
+            ctx.fillStyle = 'rgba(251, 207, 232, 0.95)';
+            ctx.fillText(document.getElementById('inputPS').value, textStartX, psDivY + 22);
+
+            ctx.restore();
+        }
+
+        /* ==========================================================================
+           7. MAIN RENDER LOOP
+           ========================================================================== */
+        function render(now) {
+            const dt = Math.min(0.05, (now - lastFrameTime) / 1000);
+            lastFrameTime = now;
+            elapsedTime += dt;
+
+            // 1. Update Bloom Progress if Playing
+            if (isPlaying) {
+                bloomProgress += dt / bloomDuration;
+                if (bloomProgress >= 1.0) {
+                    bloomProgress = 1.0;
+                    isPlaying = false;
+                }
+            }
+
+            // 2. Spring Physics for Flower Sway
+            const naturalWind = Math.sin(elapsedTime * 1.15) * 0.032 + Math.cos(elapsedTime * 0.7) * 0.015;
+            const desiredSway = targetSway + naturalWind;
+            const springForce = (desiredSway - swayAngle) * 14;
+            swayVelocity = (swayVelocity + springForce * dt) * 0.88;
+            swayAngle += swayVelocity * dt;
+
+            // 3. Draw Romantic Night Background Gradient
+            const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
+            bgGrad.addColorStop(0, currentTheme.bgTop);
+            bgGrad.addColorStop(1, currentTheme.bgBottom);
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, width, height);
+
+            // Responsive Center Positioning (Upper half on mobile portrait so the note card below never covers the lily)
+            const isDesktop = width >= 768;
+            const flowerCenterX = (isDesktop ? width * 0.34 : width * 0.5) + parallaxX * 14;
+            const flowerCenterY = (isDesktop ? height * 0.47 : height * 0.28) + parallaxY * 10;
+            const baseScale = Math.min(width, height) < 500 ? 0.68 : 1.05;
+
+            // 4. Soft Magical Backlight Halo behind the Lily
+            const haloRadius = (180 + bloomProgress * 175) * baseScale;
+            const haloGrad = ctx.createRadialGradient(
+                flowerCenterX, flowerCenterY, 10,
+                flowerCenterX, flowerCenterY, haloRadius
+            );
+            haloGrad.addColorStop(0, currentTheme.glowColor);
+            haloGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = haloGrad;
+            ctx.beginPath();
+            ctx.arc(flowerCenterX, flowerCenterY, haloRadius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 5. Draw Background Fireflies
+            drawFireflies();
+
+            // 6. Compute Stem & Flower Head Coordinates
+            const stemBottomX = flowerCenterX - 15 * baseScale;
+            const stemBottomY = height + 40;
+            const headX = flowerCenterX + Math.sin(swayAngle) * 90 * baseScale;
+            const headY = flowerCenterY + Math.cos(swayAngle) * 10 * baseScale;
+
+            // Draw Stem Leaves & Side Bud along the curved stem
+            drawStemLeaf(
+                lerp(stemBottomX, headX, 0.38),
+                lerp(stemBottomY, headY, 0.38),
+                -1, baseScale * 0.95, bloomProgress, 1
+            );
+            drawStemLeaf(
+                lerp(stemBottomX, headX, 0.56),
+                lerp(stemBottomY, headY, 0.56),
+                1, baseScale * 0.88, bloomProgress, 2
+            );
+            drawSideBud(
+                lerp(stemBottomX, headX, 0.64),
+                lerp(stemBottomY, headY, 0.64),
+                baseScale * 0.78, bloomProgress
+            );
+
+            // Draw Main Botanical Stem
+            ctx.save();
+            const stemGrad = ctx.createLinearGradient(stemBottomX, stemBottomY, headX, headY);
+            stemGrad.addColorStop(0, '#142916');
+            stemGrad.addColorStop(0.5, '#2e592d');
+            stemGrad.addColorStop(1, '#5c8d46');
+
+            ctx.beginPath();
+            ctx.moveTo(stemBottomX, stemBottomY);
+            ctx.quadraticCurveTo(
+                flowerCenterX - 25 * baseScale + swayAngle * 120,
+                (stemBottomY + headY) * 0.5,
+                headX,
+                headY + 12 * baseScale
+            );
+            ctx.strokeStyle = stemGrad;
+            ctx.lineWidth = 9 * baseScale;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            ctx.restore();
+
+            // 7. Draw the 6-Petal Lily Head (Layered Back-to-Front for True 3D Depth)
+            ctx.save();
+            ctx.translate(headX, headY);
+            ctx.rotate(swayAngle * 0.85);
+
+            const outerOpen = smoothstep(0.0, 0.88, bloomProgress);
+            const innerOpen = smoothstep(0.08, 1.0, bloomProgress);
+
+            // LAYER 1: Back Outer Sepals (Top-Left & Top-Right)
+            drawLilyPetal({ index: 0, angle: -5 * Math.PI / 6, isInner: false, openFactor: outerOpen, scale: baseScale });
+            drawLilyPetal({ index: 1, angle: -Math.PI / 6,     isInner: false, openFactor: outerOpen, scale: baseScale });
+
+            // LAYER 2: Back Top Center Inner Petal
+            drawLilyPetal({ index: 2, angle: -Math.PI / 2,     isInner: true,  openFactor: innerOpen, scale: baseScale });
+
+            // LAYER 3: Glowing Throat Nectar Aura inside the cup
+            if (bloomProgress > 0.25) {
+                const throatGlow = ctx.createRadialGradient(0, 0, 2, 0, 0, 55 * baseScale * bloomProgress);
+                throatGlow.addColorStop(0, 'rgba(217, 249, 157, 0.55)');
+                throatGlow.addColorStop(0.5, 'rgba(244, 114, 182, 0.2)');
+                throatGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = throatGlow;
+                ctx.beginPath();
+                ctx.arc(0, 0, 55 * baseScale * bloomProgress, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // LAYER 4: Lower Side Inner Petals (Bottom-Left & Bottom-Right)
+            drawLilyPetal({ index: 3, angle: 5 * Math.PI / 6,  isInner: true,  openFactor: innerOpen, scale: baseScale });
+            drawLilyPetal({ index: 4, angle: Math.PI / 6,      isInner: true,  openFactor: innerOpen, scale: baseScale });
+
+            // LAYER 5: Central Stamens & Pistil emerging from the heart of the lily
+            drawStamensAndPistil(bloomProgress, baseScale);
+
+            // LAYER 6: Front Bottom Outer Sepal (curves gracefully toward viewer)
+            drawLilyPetal({ index: 5, angle: Math.PI / 2,      isInner: false, openFactor: outerOpen * 0.94, scale: baseScale });
+
+            // Green Receptacle Calyx Cup at the very base of the flower head
+            const calyxGrad = ctx.createLinearGradient(0, 0, 0, 26 * baseScale);
+            calyxGrad.addColorStop(0, lerpColor(currentTheme.petalBase, '#4d7c38', 0.6));
+            calyxGrad.addColorStop(1, '#5c8d46');
+            ctx.fillStyle = calyxGrad;
+            ctx.beginPath();
+            ctx.moveTo(-11 * baseScale, 2 * baseScale);
+            ctx.quadraticCurveTo(0, 28 * baseScale, 11 * baseScale, 2 * baseScale);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.restore();
+
+            // Emit occasional floating golden pollen motes when in full bloom
+            if (bloomProgress > 0.65 && Math.random() < 0.16) {
+                spawnPollenBurst(headX, headY - 35 * baseScale, 1);
+            }
+
+            // 8. Draw Foreground Rising Pollen Motes
+            drawPollenMotes();
+
+            // 9. Smoothly slide the Love Note Card up synchronized with the flower blooming
+            updateNoteVisibilityState();
+
+            requestAnimationFrame(render);
+        }
+
+        /* ==========================================================================
+           8. PARTICLE SYSTEMS (FIREFLIES & GOLDEN POLLEN)
+           ========================================================================== */
+        function drawFireflies() {
+            for (let i = 0; i < fireflies.length; i++) {
+                const f = fireflies[i];
+                f.x += f.vx + Math.sin(elapsedTime * 0.8 + f.phase) * 0.2;
+                f.y += f.vy;
+                f.phase += f.phaseSpeed;
+
+                if (f.y < -20) {
+                    Object.assign(f, createFirefly(false));
+                }
+                if (f.x < -20) f.x = width + 20;
+                if (f.x > width + 20) f.x = -20;
+
+                const alpha = (Math.sin(f.phase) * 0.4 + 0.5) * 0.78;
+                const grad = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.radius * 4);
+                grad.addColorStop(0, `rgba(${currentTheme.fireflyColor}, ${alpha})`);
+                grad.addColorStop(1, `rgba(${currentTheme.fireflyColor}, 0)`);
+
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(f.x, f.y, f.radius * 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawPollenMotes() {
+            for (let i = pollenMotes.length - 1; i >= 0; i--) {
+                const p = pollenMotes[i];
+                p.x += p.vx + Math.sin(elapsedTime * 2 + i) * 0.15;
+                p.y += p.vy;
+                p.alpha -= 0.008;
+
+                if (p.alpha <= 0) {
+                    pollenMotes.splice(i, 1);
+                    continue;
+                }
+
+                ctx.fillStyle = `rgba(253, 224, 71, ${p.alpha})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        /* ==========================================================================
+           9. GIFT ENVELOPE REVEAL & BLOOM CONTROLS
+           ========================================================================== */
+        function openGiftEnvelope() {
+            if (isEnvelopeOpening) return;
+            isEnvelopeOpening = true;
+
+            ensureAudioContext();
+            stopAmbientMusicLoop();
+
+            // STEP 1 (0.0s): Play the crystalline opening chime strictly ONCE & animate the wax seal shimmer
+            if (soundEnabled) {
+                playEnvelopeSealChime();
+            }
+
+            const sealBtn = document.getElementById('waxSealButton');
+            if (sealBtn) sealBtn.classList.add('wax-seal-unlocking');
+            const sealPrompt = document.getElementById('waxSealPrompt');
+            if (sealPrompt) sealPrompt.textContent = 'Opening Keepsake...';
+
+            const overlay = document.getElementById('giftEnvelopeOverlay');
+
+            // STEP 2 (~1.1s): After the chime rings out, fade open the envelope overlay & begin the lily bloom from 0%
+            const openTimer = setTimeout(() => {
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+
+                // Show floating minimal Gift Controls (Music: On/Off & Replay Bloom only)
+                const giftBar = document.getElementById('giftFloatingBar');
+                giftBar.classList.remove('hidden');
+                giftBar.classList.add('flex');
+
+                // Begin the lily blooming animation from 0%
+                replayBloom();
+            }, 1100);
+            sequenceTimers.push(openTimer);
+
+            // STEP 3 (~1.45s): Right as the envelope opens up and the chime finishes resonating, start the ambient melody loop
+            const musicTimer = setTimeout(() => {
+                if (soundEnabled) {
+                    chordIndex = 0;
+                    startAmbientMusicLoop();
+                }
+            }, 1450);
+            sequenceTimers.push(musicTimer);
+
+            // Hide envelope DOM node completely once fade-out completes
+            const cleanupTimer = setTimeout(() => {
+                overlay.classList.add('hidden');
+                overlay.classList.remove('pointer-events-none');
+                if (sealBtn) sealBtn.classList.remove('wax-seal-unlocking');
+                isEnvelopeOpening = false;
+            }, 2100);
+            sequenceTimers.push(cleanupTimer);
+        }
+
+        function replayBloom() {
+            bloomProgress = 0;
+            isPlaying = true;
+        }
+
+        function updateNoteVisibilityState() {
+            const card = document.getElementById('noteCard');
+            if (!card) return;
+
+            // Smoothly slide the note card up and fade in synchronized with bloomProgress (0.0 -> 1.0)
+            const slideEase = smoothstep(0.04, 0.88, bloomProgress);
+            const alphaEase = smoothstep(0.02, 0.72, bloomProgress);
+            const offsetY = (1 - slideEase) * 140;
+
+            card.style.opacity = alphaEase.toFixed(3);
+            card.style.transform = `translateY(${offsetY.toFixed(1)}px)`;
+            card.style.pointerEvents = alphaEase > 0.15 ? 'auto' : 'none';
+        }
+
+        // Start Animation Loop on Window Load
+        window.onload = function () {
+            updateNoteVisibilityState();
+            requestAnimationFrame(render);
+        };
+    </script>
+</body>
+</html>
